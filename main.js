@@ -1,10 +1,11 @@
 const { findKeywords } = require("./firebase");
-const { send } = require("./sendEmail");
+const { send, sendEmailIncharge } = require("./sendEmail");
+const { keyword } = require("./keyword");
 
 const notifier = require("mail-notifier");
-const re = /\[(\w+)\]/i;
+
 const imap = {
-  user: "pruebalegal2020@outlook.com",
+  user: "chilelegal-hackathon@outlook.com",
   password: "chilelegal2020",
   host: "imap.outlook.com",
   port: 993, // imap port
@@ -14,17 +15,35 @@ const imap = {
 
 notifier(imap)
   .on("mail", function (mail) {
-    console.log(mail.from[0].address);
-    const keywordMatch = mail.subject.match(re);
-    console.log(keywordMatch);
-    const keyword = keywordMatch[1];
+    const keywordFound = keyword(mail.subject);
+
     const reply = mail.from[0].address;
 
-    const emailPromise = findKeywords(keyword);
+    const emailPromise = findKeywords(keywordFound);
+    // console.log("*****");
+    // console.log(mail);
+    // console.log("*****");
 
     //let result;
-    emailPromise.then((email) => {
-      send(email, reply);
+    emailPromise.then((asignationData) => {
+      //TO DO: validar assignationdata !== undefined, enviar correo a felipe y otra persona
+      send(reply, asignationData.incharge);
+      sendEmailIncharge(
+        asignationData.email,
+        mail.subject,
+        mail.attachments,
+        mail.html,
+        reply
+      );
+      //TO DO: definar team cuando no hay palabra clave
+      //TO DO: guardar data en colección de firebase.
+      // const data = {
+      //   assignedAgent: asignationData.incharge,
+      //   team: "?",
+      //   customerId: mail.from[0].name,
+      //   date: mail.date,
+      //   status: "pending",
+      // };
     });
   })
   .start();
