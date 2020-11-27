@@ -35,8 +35,8 @@ const noChargeEmail = (reply) => {
     to: reply,
     subject: "Respuesta de Chile Legal!",
     html: `<p>Hemos recibido tu solicitud y estamos asignando tu requerimiento. </p>
-    <p>Para tener una mayor información de nuestro equipo y áreas a las que prestan soporte, igresa al siguiente link:</p>
-         <p><b><a href="https://www.accenture.com/cl-es">Chile legal-Santiago</a></b></p>
+    <p>Para tener una mayor información de nuestro equipo y áreas a las que prestan soporte, ingresa al siguiente link:</p>
+         <p><b><a href="https://www.accenture.com/cl-es" style="text-decoration:none>Chile legal-Santiago</a></b></p>
          <br><br><br>
          
          <img src="https://i.postimg.cc/65Dt8zJ0/logo-acc.png" alt="Logo" title="Logo" style="display:block" width="200" height="53" />`,
